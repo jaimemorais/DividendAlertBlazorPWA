@@ -1,7 +1,22 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="BlazorPWA.MSBuild" Version="1.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <!-- PWA configs - https://github.com/SQL-MisterMagoo/Blazor.PWA.MSBuild -->
+  <PropertyGroup>    
+    <ServiceWorkerCacheVersion>1</ServiceWorkerCacheVersion>
+    <ServiceWorkerForce>true</ServiceWorkerForce>    
+    <ManifestShortName>Dividend Alert App</ManifestShortName>
+    <ManifestLongName>Dividend Alert Blazor App</ManifestLongName>
+  </PropertyGroup>
+  
 </Project>

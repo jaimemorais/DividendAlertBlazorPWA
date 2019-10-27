@@ -18,6 +18,15 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        html = await dividendAlertService.GetNewDividendsHtmlAsync();
+        try
+        {
+            html = await dividendAlertService.GetNewDividendsHtmlAsync();
+        }
+        catch (Exception ex)
+        {
+            // TODO remove
+            html = $"<p> Error loading dividends : {ex.Message}</p>";
+        }
+
     }
 }

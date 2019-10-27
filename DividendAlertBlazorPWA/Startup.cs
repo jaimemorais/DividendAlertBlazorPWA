@@ -23,6 +23,7 @@ namespace DividendAlertBlazorPWA
 
             services.AddServerSideBlazor();
 
+            services.AddCors();
 
             services.AddSingleton<IDividendAlertService, DividendAlertService>();
 
@@ -41,6 +42,8 @@ namespace DividendAlertBlazorPWA
             {
                 app.UseExceptionHandler("/Error");
             }
+
+            app.UseCors(o => o.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
 
             app.UseStaticFiles();
 
