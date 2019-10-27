@@ -1,2 +1,2 @@
 # DividendAlertBlazorPWA
-blazor pwa experiments
+blazor / pwa experiments
