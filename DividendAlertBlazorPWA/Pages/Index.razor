@@ -1,0 +1,23 @@
+﻿@page "/"
+
+@using DividendAlertBlazorPWA.Data
+@inject IDividendAlertService dividendAlertService
+
+
+@if (html == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    @((MarkupString)html)
+}
+
+@code {
+    string html;
+
+    protected override async Task OnInitializedAsync()
+    {
+        html = await dividendAlertService.GetNewDividendsHtmlAsync();
+    }
+}
