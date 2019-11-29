@@ -1,9 +1,11 @@
+using DividendAlertBlazorPWA.Model;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DividendAlertBlazorPWA.Data
 {
     public interface IDividendAlertService
     {
-        Task<string> GetNewDividendsHtmlAsync();
+        Task<IEnumerable<Dividend>> GetNewDividendsAsync();
     }
 }

@@ -1,4 +1,6 @@
+using DividendAlertBlazorPWA.Model;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -14,11 +16,17 @@ namespace DividendAlertBlazorPWA.Data
             _config = config;
         }
 
-        public async Task<string> GetNewDividendsHtmlAsync()
+        public async Task<IEnumerable<Dividend>> GetNewDividendsAsync()
         {
             using (HttpClient httpClient = new HttpClient())
             {
-                return await httpClient.GetStringAsync(_config["dividendApiUri"]);
+                int days = 7;
+
+                string uri = $"{_config["dividendApiUri"]}/lastDays/{days}";
+
+                // TODO
+                // return await httpClient.GetAsync(uri);
+                return null;
             }
         }
 

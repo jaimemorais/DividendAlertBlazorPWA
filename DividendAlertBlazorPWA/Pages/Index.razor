@@ -1,31 +1,48 @@
 ﻿@page "/"
 
 @using DividendAlertBlazorPWA.Data
+@using DividendAlertBlazorPWA.Model
 @inject IDividendAlertService dividendAlertService
 
 
-@if (html == null)
+@if (!dividendList.Any() && errorMsg == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
-    @((MarkupString)html)
+    @if (errorMsg != null)
+    {
+        // TODO change to layout
+        <p>@errorMsg</p>
+    }
+    else
+    {
+        <table>
+            @foreach (Dividend d in dividendList)
+            {
+                <tr>
+                    <td>@d.StockName</td>
+                    <td>@d.PaymentDate</td>
+                </tr>
+            }
+        </table>
+    }
 }
 
 @code {
-    string html;
+    string errorMsg;
+    IEnumerable<Dividend> dividendList;
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            html = await dividendAlertService.GetNewDividendsHtmlAsync();
+            IEnumerable<Dividend> dividendList = await dividendAlertService.GetNewDividendsAsync();
         }
         catch (Exception ex)
         {
-            // TODO remove
-            html = $"<p> Error loading dividends : {ex.Message}</p>";
+            string errorMsg = $"<p> Error loading dividends : {ex.Message}</p>";
         }
 
     }
