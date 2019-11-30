@@ -1,11 +1,12 @@
 ﻿@page "/"
 
-@using DividendAlertBlazorPWA.Data
+@using System.Linq
+@using DividendAlertBlazorPWA.Services
 @using DividendAlertBlazorPWA.Model
 @inject IDividendAlertService dividendAlertService
 
 
-@if (!dividendList.Any() && errorMsg == null)
+@if (dividendList == null && errorMsg == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -18,31 +19,58 @@ else
     }
     else
     {
-        <table>
-            @foreach (Dividend d in dividendList)
-            {
-                <tr>
-                    <td>@d.StockName</td>
-                    <td>@d.PaymentDate</td>
-                </tr>
-            }
-        </table>
+        if (dividendList.Any()) 
+        {
+            <h5>Your new Dividends : </h5>
+            <br/>
+
+            <table>
+
+                <thead style="font-weight:bold;font-size:12px;">
+                    <tr>
+                        <td style="padding-right:30px;">StockName</td>
+                        <td style="padding-right:40px;">Type</td>
+                        <td style="padding-right:60px;">Value</td>
+                        <td style="padding-right:20px;">Payment Date</td>
+                        <td style="padding-right:10px;">Ex Date</td>
+                    </tr>
+                </thead>
+
+                @foreach (Dividend d in dividendList)
+                {
+                    <tr style="font-size:12px;">
+                        <td>@d.StockName</td>
+                        <td>@d.Type</td>
+                        <td>@d.Value</td>
+                        <td>@d.PaymentDateFormatted</td>
+                        <td>@d.ExDate</td>
+                    </tr>
+                }
+            </table>
+        }
+        else 
+        {
+            <p>No dividends in the last @lastDays days</p>
+        }   
+
+
     }
 }
 
 @code {
     string errorMsg;
     IEnumerable<Dividend> dividendList;
+    int lastDays = 30;
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            IEnumerable<Dividend> dividendList = await dividendAlertService.GetNewDividendsAsync();
+            dividendList = await dividendAlertService.GetNewDividendsAsync(lastDays);            
         }
         catch (Exception ex)
         {
-            string errorMsg = $"<p> Error loading dividends : {ex.Message}</p>";
+            errorMsg = $"<p> Error loading dividends : {ex.Message}</p>";
         }
 
     }

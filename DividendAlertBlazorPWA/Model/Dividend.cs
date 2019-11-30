@@ -7,7 +7,10 @@ namespace DividendAlertBlazorPWA.Model
         public string StockName { get; set; }
         public string Type { get; set; }
         public string ExDate { get; set; }
-        public string PaymentDate { get; set; }
+        public DateTime PaymentDate { get; set; }
+
+        public string PaymentDateFormatted => PaymentDate.ToString("dd/MM/yyyy");
+
         public string Value { get; set; }
         public DateTime DateAdded { get; set; }
     }
