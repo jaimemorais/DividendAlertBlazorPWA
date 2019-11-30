@@ -2,10 +2,10 @@ using DividendAlertBlazorPWA.Model;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DividendAlertBlazorPWA.Data
+namespace DividendAlertBlazorPWA.Services
 {
     public interface IDividendAlertService
     {
-        Task<IEnumerable<Dividend>> GetNewDividendsAsync();
+        Task<List<Dividend>> GetNewDividendsAsync(int days);
     }
 }
