@@ -2,6 +2,7 @@ using DividendAlertBlazorPWA.Model;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -36,13 +37,12 @@ namespace DividendAlertBlazorPWA.Services
 
                     List<Dividend> dividends = JsonConvert.DeserializeObject<List<Dividend>>(json, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
 
-
                     return dividends.OrderByDescending(d => d.PaymentDate).ToList();
                 }
                 else
                 {
-                    // TODO logging
-                    return null;
+                    // TODO log error
+                    return Array.Empty<Dividend>().ToList();
                 }
             }
         }
