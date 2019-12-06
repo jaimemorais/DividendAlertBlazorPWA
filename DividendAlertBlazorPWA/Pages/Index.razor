@@ -6,72 +6,57 @@
 @inject IDividendAlertService dividendAlertService
 
 
-@if (dividendList == null && errorMsg == null)
+<h5>Your new Dividends : </h5>
+<br />
+
+
+@if (dividendList == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
-    @if (errorMsg != null)
+
+    if (dividendList.Any())
     {
-        // TODO change to layout
-        <p>@errorMsg</p>
+        <table>
+
+            <thead style="font-weight:bold;font-size:12px;">
+                <tr>
+                    <td style="padding-right:30px;">StockName</td>
+                    <td style="padding-right:40px;">Type</td>
+                    <td style="padding-right:60px;">Value</td>
+                    <td style="padding-right:20px;">Payment Date</td>
+                    <td style="padding-right:10px;">Ex Date</td>
+                </tr>
+            </thead>
+
+            @foreach (Dividend d in dividendList)
+            {
+                <tr style="font-size:12px;">
+                    <td>@d.StockName</td>
+                    <td>@d.Type</td>
+                    <td>@d.Value</td>
+                    <td>@d.PaymentDateFormatted</td>
+                    <td>@d.ExDate</td>
+                </tr>
+            }
+        </table>
     }
     else
     {
-        if (dividendList.Any()) 
-        {
-            <h5>Your new Dividends : </h5>
-            <br/>
-
-            <table>
-
-                <thead style="font-weight:bold;font-size:12px;">
-                    <tr>
-                        <td style="padding-right:30px;">StockName</td>
-                        <td style="padding-right:40px;">Type</td>
-                        <td style="padding-right:60px;">Value</td>
-                        <td style="padding-right:20px;">Payment Date</td>
-                        <td style="padding-right:10px;">Ex Date</td>
-                    </tr>
-                </thead>
-
-                @foreach (Dividend d in dividendList)
-                {
-                    <tr style="font-size:12px;">
-                        <td>@d.StockName</td>
-                        <td>@d.Type</td>
-                        <td>@d.Value</td>
-                        <td>@d.PaymentDateFormatted</td>
-                        <td>@d.ExDate</td>
-                    </tr>
-                }
-            </table>
-        }
-        else 
-        {
-            <p>No dividends in the last @lastDays days</p>
-        }   
-
-
+        <p>No dividends in the last @lastDays days</p>
     }
+
+
 }
 
 @code {
-    string errorMsg;
     IEnumerable<Dividend> dividendList;
     int lastDays = 30;
 
     protected override async Task OnInitializedAsync()
     {
-        try
-        {
-            dividendList = await dividendAlertService.GetNewDividendsAsync(lastDays);            
-        }
-        catch (Exception ex)
-        {
-            errorMsg = $"<p> Error loading dividends : {ex.Message}</p>";
-        }
-
+        dividendList = await dividendAlertService.GetNewDividendsAsync(lastDays);
     }
 }
