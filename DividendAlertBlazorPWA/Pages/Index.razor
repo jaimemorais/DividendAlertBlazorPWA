@@ -6,7 +6,7 @@
 @inject IDividendAlertService dividendAlertService
 
 
-<h5>Your new Dividends : </h5>
+<h5>Your next Dividends : </h5>
 <br />
 
 
@@ -16,38 +16,34 @@
 }
 else
 {
-
-    if (dividendList.Any())
-    {
-        <table>
-
-            <thead style="font-weight:bold;font-size:12px;">
-                <tr>
-                    <td style="padding-right:30px;">StockName</td>
-                    <td style="padding-right:40px;">Type</td>
-                    <td style="padding-right:60px;">Value</td>
-                    <td style="padding-right:20px;">Payment Date</td>
-                    <td style="padding-right:10px;">Ex Date</td>
-                </tr>
-            </thead>
-
+    <div class="container-fluid">
+        @if (dividendList.Any())
+        {
             @foreach (Dividend d in dividendList)
             {
-                <tr style="font-size:12px;">
-                    <td>@d.StockName</td>
-                    <td>@d.Type</td>
-                    <td>@d.Value</td>
-                    <td>@d.PaymentDateFormatted</td>
-                    <td>@d.ExDate</td>
-                </tr>
-            }
-        </table>
-    }
-    else
-    {
-        <p>No dividends in the last @lastDays days</p>
-    }
+                <div class="row">
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
 
+
+                        <div class="card" style="margin:0px 0px 0px 4px;">
+                            <div class="card-body">
+                                <h5 class="card-title font-weight-bold">@d.StockName <span style="font-size:12px;font-style:italic;">&nbsp;&nbsp;(@d.Type)</span></h5>
+                                <h6 class="card-subtitle text-muted font-italic">@d.PaymentDateFormatted &nbsp;&nbsp;&nbsp; @d.Value</h6>                                
+                                <!--<p class="card-text">Ex Date: @d.ExDate</p>-->                                
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <p>No dividends</p>
+        }
+    </div>
 
 }
 
@@ -57,6 +53,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        dividendList = await dividendAlertService.GetNewDividendsAsync(lastDays);
+        dividendList = await dividendAlertService.GetNextDividendsAsync(DateTime.Today);
     }
 }

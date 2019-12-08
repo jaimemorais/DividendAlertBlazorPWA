@@ -20,6 +20,37 @@ namespace DividendAlertBlazorPWA.Services
             _config = config;
         }
 
+
+        public async Task<List<Dividend>> GetNextDividendsAsync(DateTime fromDate)
+        {
+            using (HttpClient httpClient = new HttpClient())
+            {
+                const string NEXT_DIVIDENDS_ENDPOINT = "dividends/next";
+
+                string uri = $"{_config["dividendApiUri"]}/{NEXT_DIVIDENDS_ENDPOINT}/{_config["scrapeToken"]}/" +
+                    $"{fromDate.Year}/{fromDate.Month.ToString("00")}/{fromDate.Day.ToString("00")}";
+
+                var response = await httpClient.GetAsync(uri);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = await response.Content.ReadAsStringAsync();
+
+                    List<Dividend> dividends = JsonConvert.DeserializeObject<List<Dividend>>(json, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" });
+
+                    return dividends.OrderByDescending(d => d.PaymentDate).ToList();
+                }
+                else
+                {
+                    // TODO log error
+                    return Array.Empty<Dividend>().ToList();
+                }
+            }
+        }
+
+
+
+
         public async Task<List<Dividend>> GetNewDividendsAsync(int days)
         {
             using (HttpClient httpClient = new HttpClient())
