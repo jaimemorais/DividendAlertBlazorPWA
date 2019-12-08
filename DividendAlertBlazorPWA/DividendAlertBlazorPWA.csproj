@@ -20,5 +20,14 @@
     <ManifestShortName>Dividend Alert App</ManifestShortName>
     <ManifestLongName>Dividend Alert Blazor App</ManifestLongName>
   </PropertyGroup>
+
+  
+  
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0" />
+    <Watch Include="..\**\*.razor" />
+    <Watch Include="..\**\*.scss" />
+    <Watch Include="..\**\*.cs" />
+  </ItemGroup>
   
 </Project>
