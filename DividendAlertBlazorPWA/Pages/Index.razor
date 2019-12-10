@@ -6,9 +6,6 @@
 @inject IDividendAlertService dividendAlertService
 
 
-<h5>Your next Dividends : </h5>
-<br />
-
 
 @if (dividendList == null)
 {
@@ -24,16 +21,13 @@ else
                 <div class="row">
                     <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
 
-
-                        <div class="card mt-2">
+                        <div class="card mt-1" style="background-color:#0f3673">
                             <div class="card-body">
-                                <h5 class="card-title font-weight-bold">@d.StockName <span class="font-italic float-right" style="font-size:13pt;">(@d.Type)</span></h5>
-                                <span class="text-muted font-italic">@d.PaymentDateFormatted</span>
-                                <span class="text-muted font-italic float-right">@d.Value</span>                                                                                              
+                                <h5 class="card-title text-white font-weight-bold">@d.StockName <span class="float-right" style="font-size:12pt;">@d.PaymentDateFormatted</span></h5>
+                                <span class="text-white font-italic">@d.Type</span>
+                                <span class="text-white font-italic float-right">Valor: @d.Value</span>                                                                                              
                             </div>
                         </div>
-
-
 
                     </div>
                 </div>
