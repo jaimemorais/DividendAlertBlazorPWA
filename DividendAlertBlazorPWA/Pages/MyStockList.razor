@@ -1,3 +1,77 @@
 ﻿@page "/mystocklist"
 
-<p>My Stock List</p>
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Mvc.Rendering
+@using System.Linq
+@using DividendAlertBlazorPWA.Services
+@using DividendAlertBlazorPWA.Model
+@inject IDividendAlertService dividendAlertService
+
+
+
+@if (multiSelectStockList == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="container-fluid">
+        @if (multiSelectStockList.Any())
+        {
+
+            <div class="multiselect">
+                <div id="checkboxes">
+                    @foreach (Stock s in this.multiSelectStockList.Items)
+                    {
+                        <div>
+                            <label for="@s.Name">
+                                @if (s.Selected)
+                                {
+                                    <input type="checkbox" id="@s.Name" checked="checked" @onchange="@((e) => CheckboxChanged(e, s.Name))" />
+                                }
+                                else
+                                {
+                                    <input type="checkbox" id="@s.Name" @onchange="@((e) => CheckboxChanged(e, s.Name))" />
+                                }
+                                @s.Name - @s.Company
+                            </label>
+                        </div>
+                    }
+                </div>
+        </div>
+        }
+        else
+        {
+            <p>No dividends</p>
+        }
+    </div>
+
+}
+
+@code {
+
+    [Parameter]
+    public MultiSelectList multiSelectStockList { get; set; } = null!;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        // TODO load from service
+        multiSelectStockList = new MultiSelectList(new List<Stock>()
+        {
+            new Stock() { Name = "BBSA3" , Company = "Banco do Brasil"},
+            new Stock() { Name = "WEGE3" , Company = "WEG" }
+        });
+    }
+
+
+    private void CheckboxChanged(ChangeEventArgs e, string key)
+    {
+        var i = this.multiSelectStockList.FirstOrDefault(i => i.Value == key);
+        if (i != null)
+        {
+            i.Selected = (bool)e.Value;
+        }
+    }
+
+}
