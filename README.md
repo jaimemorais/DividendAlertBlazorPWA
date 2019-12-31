@@ -1,2 +1,3 @@
 # DividendAlertBlazorPWA
-blazor / pwa experiments
+
+Blazor / PWA / .Net Core

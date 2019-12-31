@@ -29,5 +29,11 @@
     <Watch Include="..\**\*.scss" />
     <Watch Include="..\**\*.cs" />
   </ItemGroup>
+
+  
+  
+  <ItemGroup>
+    <Watch Remove="Model\Stock.cs" />
+  </ItemGroup>
   
 </Project>
