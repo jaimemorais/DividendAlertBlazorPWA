@@ -27,6 +27,8 @@ namespace DividendAlertBlazorPWA.Services
             {
                 const string NEXT_DIVIDENDS_ENDPOINT = "dividends/next";
 
+                fromDate = fromDate.AddDays(-1);
+
                 string uri = $"{_config["dividendApiUri"]}/{NEXT_DIVIDENDS_ENDPOINT}/{_config["scrapeToken"]}/" +
                     $"{fromDate.Year}/{fromDate.Month.ToString("00")}/{fromDate.Day.ToString("00")}";
 
